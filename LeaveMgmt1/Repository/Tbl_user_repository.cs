@@ -100,18 +100,17 @@ namespace LeaveMgmt1.Repository
         {
             //var ispresent = _context.tbl_user.FirstOrDefault(o => o.email.Equals(email));
             string query = @"Select * from tbl_user where email=@email";
+            bool ispresent = false;
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@email", email);
             try
             {
-                bool ispresent = false;
+                
                 con.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                     ispresent = true;
-                if (ispresent)
-                    return ispresent;
-                return ispresent;
+                
             }
           
             catch (Exception e)
@@ -119,6 +118,14 @@ namespace LeaveMgmt1.Repository
                 System.Console.WriteLine(e.Message);
                 return false;
             }
+            finally
+            {
+                con.Close();
+                
+            }
+            if (ispresent)
+                return ispresent;
+            return ispresent;
         }
     }
 }
